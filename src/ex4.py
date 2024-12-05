@@ -1,19 +1,6 @@
 def count_xmas(text: str) -> int:
     return text.count('XMAS') + text.count('SAMX')
 
-def is_x_mas(ix: int, iy: int) -> bool:
-    global lines
-    is_x_max = False
-    if lines[iy][ix] != 'A':
-        return False
-    if ((lines[iy-1][ix-1] == 'S' and lines[iy+1][ix+1] == 'M') or
-        (lines[iy-1][ix-1] == 'M' and lines[iy+1][ix+1] == 'S')):
-            if ((lines[iy-1][ix+1] == 'S' and lines[iy+1][ix-1] == 'M') or
-                (lines[iy-1][ix+1] == 'M' and lines[iy+1][ix-1] == 'S')):
-                    is_x_max = True
-    return is_x_max
-
-
 in_file = open("../data/ex4.txt")
 lines = [l.replace('\\n', '').strip() for l in in_file.readlines()]
 
@@ -31,7 +18,13 @@ for i in range(y_max):
 
 for i in range(1, y_max-1):
     for j in range(1, y_max-1):
-        total_2 += is_x_mas(i, j)
+        if lines[j][i] != 'A':
+            continue
+        if ((lines[j - 1][i - 1] == 'S' and lines[j + 1][i + 1] == 'M') or
+                (lines[j - 1][i - 1] == 'M' and lines[j + 1][i + 1] == 'S')):
+            if ((lines[j - 1][i + 1] == 'S' and lines[j + 1][i - 1] == 'M') or
+                    (lines[j - 1][i + 1] == 'M' and lines[j + 1][i - 1] == 'S')):
+                total_2 += 1
 
 print(total_1)
 print(total_2)
