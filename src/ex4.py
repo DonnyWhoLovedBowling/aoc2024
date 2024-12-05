@@ -16,7 +16,6 @@ def is_x_mas(ix: int, iy: int) -> bool:
 
 in_file = open("../data/ex4.txt")
 lines = [l.replace('\\n', '').strip() for l in in_file.readlines()]
-print(len(lines[0]))
 
 total_1, total_2 = 0, 0
 y_max = len(lines[0])
