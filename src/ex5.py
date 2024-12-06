@@ -50,6 +50,7 @@ print(total_1)
 for update in updates_2:
     new_update = deepcopy(update)
     while True:
+        iter += 1
         for i in range(len(new_update)-1):
             page_before = new_update[i]
             page_after = new_update[i+1]
@@ -59,5 +60,6 @@ for update in updates_2:
         if is_ordered(new_update):
             total_2 += int(new_update[floor((len(new_update) / 2))])
             break
+
 
 print(total_2)
