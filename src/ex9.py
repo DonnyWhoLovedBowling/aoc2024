@@ -41,20 +41,21 @@ if __name__ == '__main__':
 
     first_space = 0
     for i in range(-1, -1*len(full_string_2), -1):
-        if i % 1000 == 0:
-            print(i, len(full_string_2), first_space)
         if abs(i) > len(full_string_2):
             break
         elem_file = full_string_2[i]
         if elem_file[1] == '.':
             continue
-        for j in range(0, len(full_string_2)):
+        first_space_found = False
+        for j in range(first_space, len(full_string_2)):
             if j >= len(full_string_2)+i:
                 break
             elem_space = full_string_2[j]
             if elem_space[1].isnumeric():
                 continue
-            first_space = j
+            if (not first_space_found) and elem_space[0] > 0:
+                first_space = j
+                first_space_found = True
             if elem_file[0] > elem_space[0]:
                 continue
             elif elem_file[0] == elem_space[0]:
