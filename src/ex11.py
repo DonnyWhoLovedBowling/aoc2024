@@ -14,6 +14,7 @@ def process_number(_i):
         ans = [str(int(_i[0:int(len(_i)/2):])), str(int(_i[int(len(_i)/2):]))]
     else:
         ans = [str(2024*int(_i))]
+    number_map[_i] = ans
     return ans
 
 
