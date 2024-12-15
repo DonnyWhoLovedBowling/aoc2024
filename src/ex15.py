@@ -153,7 +153,6 @@ if __name__ == '__main__':
     for b in boxes_l:
         y = b[1]
         x = b[0]
-        # x = b[0] if b[0] < (size - (b[1] + 1)) else (size - (b[1] + 1))
         ans_2 += (x+100*y)
     print(ans_2)
 
