@@ -1,17 +1,14 @@
 import numpy as np
 from re import findall
-#
-#
-# |ba[0] bb[0]| |a|    pr[0]
-# |ba[1] bb[1]| |b|  = pr[1]
-#
-#
+
+
 class Machine:
     def __init__(self, _a, _b, _prize):
         self.button_a = a
         self.button_b = b
         self.prize = _prize
         self.pushes = []
+
     def __repr__(self):
         return str(self.button_a) + ' ' + str(self.button_b) + ' ' + str(self.prize)
 
