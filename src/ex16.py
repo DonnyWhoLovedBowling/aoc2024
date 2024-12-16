@@ -13,23 +13,14 @@ def calc_all_shortest_paths():
     visited = dict()
     queue = []
     heapq.heappush(queue, (0, [start]))
-    shortest_path_score = 9999999
     while queue:
         item = heapq.heappop(queue)
         _path = item[1]
         node = _path[-1]
         score = item[0]
-        if score > shortest_path_score:
-            continue
+        _dir = (1, 0) if len(_path) == 1 else subtract(_path[-1], _path[-2])
 
-        if len(_path) == 1:
-            _dir = (1, 0)
-        else:
-            _dir = subtract(_path[-1], _path[-2])
-        do_it = True
-        if (_dir, node) in visited:
-            do_it = visited[(_dir, node)] >= score
-        if do_it:
+        if ((_dir, node) not in visited) or visited[(_dir, node)] >= score:
             neighbours = graph[node]
             for neighbour in neighbours:
                 if neighbour in _path:
@@ -41,7 +32,6 @@ def calc_all_shortest_paths():
 
                 if neighbour == end:
                     paths.append(new_path)
-                    shortest_path_score = new_score
             visited[(_dir, node)] = score
 
 def calc_score(_path):
@@ -49,9 +39,7 @@ def calc_score(_path):
         direction = (1, 0)
         score = 0
         for i in range(1, len(_path)):
-            p2 = _path[i]
-            p1 = _path[i - 1]
-            new_direction = subtract(p2, p1)
+            new_direction = subtract(_path[i], _path[i - 1])
             score += 1
             if new_direction != direction:
                 score += 1000
@@ -65,8 +53,6 @@ if __name__ == '__main__':
     in_file = open("../data/ex16.txt")
     lines = [l.replace('\\n', '').strip() for l in in_file.readlines()]
     vertices = set()
-    start = ()
-    end = ()
     graph = defaultdict(set)
     paths = []
     for i, line in enumerate(lines):
@@ -93,5 +79,3 @@ if __name__ == '__main__':
     for _path in paths:
         full_set.update(set(_path))
     print(len(full_set))
-
-
