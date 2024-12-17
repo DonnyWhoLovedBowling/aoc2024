@@ -35,19 +35,15 @@ def calc_all_shortest_paths():
             visited[(_dir, node)] = score
 
 def calc_score(_path):
-    if len(_path) > 1:
-        direction = (1, 0)
-        score = 0
-        for i in range(1, len(_path)):
-            new_direction = subtract(_path[i], _path[i - 1])
-            score += 1
-            if new_direction != direction:
-                score += 1000
-            direction = new_direction
-        return score
-    else:
-        print('? ', _path)
-
+    direction = (1, 0)
+    score = 0
+    for i in range(1, len(_path)):
+        new_direction = subtract(_path[i], _path[i - 1])
+        score += 1
+        if new_direction != direction:
+            score += 1000
+        direction = new_direction
+    return score
 
 if __name__ == '__main__':
     in_file = open("../data/ex16.txt")
