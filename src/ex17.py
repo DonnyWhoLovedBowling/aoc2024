@@ -12,7 +12,7 @@ def combo(_operand, A):
         return C
 
 def run_program(_opcode, A_orig, pt2=False):
-    global B, C
+    global B, C, last_hit
     A = A_orig
     ix = 0
     out = []
@@ -40,7 +40,13 @@ def run_program(_opcode, A_orig, pt2=False):
                     return []
                 if _opcode[len(out)] != new_out:
                     return []
+
             out.append(new_out)
+            if len(out) > 6:
+                print(A_orig, (A_orig-last_hit), len(out))
+                if pt2:
+                    last_hit = A_orig
+
         elif op == 6:
             B = int(A / pow(2, combo(operand, A)))
         elif op == 7:
@@ -57,6 +63,7 @@ if __name__ == '__main__':
     in_file = open("../data/ex17.txt")
     lines = [l.replace('\\n', '').strip() for l in in_file.readlines()]
     A_cor, B, C = 0,0,0
+    last_hit = 0
     opcode = []
     for line in lines:
         if 'A' in line:
@@ -77,7 +84,7 @@ if __name__ == '__main__':
     while out != opcode:
         out = run_program(opcode, A_new, True)
         A_new += 1
-        if A_new % 100000 == 0:
-            print(A_new)
+        # if A_new % 100000 == 0:
+        #     print(A_new)
     print(A_new)
 
