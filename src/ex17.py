@@ -12,11 +12,14 @@ def combo(_operand, A):
         return C
 
 def run_program(_opcode, A_orig, pt2=False):
-    global B, C, last_hit
+    global B, C, last_hit, threshold
     A = A_orig
     ix = 0
     out = []
+    increased = False
     while ix < len(_opcode):
+        if increased:
+            print(len(out), A, B, C)
         op = _opcode[ix]
         operand = _opcode[ix + 1]
         inc_by_2 = True
@@ -42,12 +45,15 @@ def run_program(_opcode, A_orig, pt2=False):
                     return []
 
             out.append(new_out)
-            if len(out) > 6:
-                print(A_orig, (A_orig-last_hit), len(out))
+            if len(out) > threshold:
+                print(A_orig, B, (A_orig-last_hit), len(out), operand)
                 if pt2:
                     last_hit = A_orig
+                    threshold += 1
+                    increased = True
 
         elif op == 6:
+            print('did B!')
             B = int(A / pow(2, combo(operand, A)))
         elif op == 7:
             C = int(A / pow(2, combo(operand, A)))
@@ -64,6 +70,7 @@ if __name__ == '__main__':
     lines = [l.replace('\\n', '').strip() for l in in_file.readlines()]
     A_cor, B, C = 0,0,0
     last_hit = 0
+    threshold = 0
     opcode = []
     for line in lines:
         if 'A' in line:
@@ -79,12 +86,13 @@ if __name__ == '__main__':
 
     # out = run_program(opcode, A_cor)
     # print(out)
-    A_new = 0
+    A_new = pow(8, 17)
     out = []
     while out != opcode:
         out = run_program(opcode, A_new, True)
-        A_new += 1
+        A_new -= 1
         # if A_new % 100000 == 0:
         #     print(A_new)
+        # break
     print(A_new)
 
