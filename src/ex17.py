@@ -1,67 +1,51 @@
-from collections import defaultdict
-
-def combo(_operand, A):
+def combo(_operand, a):
     global B, C
     if _operand < 4:
         return _operand
     if _operand == 4:
-        return  A
+        return  a
     if _operand == 5:
         return B
     if _operand == 6:
         return C
 
-def run_program(_opcode, A_orig, pt2=False):
+def run_program(_opcode, a_orig):
     global B, C, last_hit, threshold
-    A = A_orig
-    ix = 0
-    out = []
-    increased = False
-    while ix < len(_opcode):
-        # if increased:
-        #     print(len(out), A, B, C)
-        op = _opcode[ix]
-        operand = _opcode[ix + 1]
+    a = a_orig
+    _ix = 0
+    _out = []
+    while _ix < len(_opcode):
+        op = _opcode[_ix]
+        operand = _opcode[_ix + 1]
         inc_by_2 = True
 
         if op == 0:
-            A = int(A / pow(2, combo(operand, A)))
+            a = int(a / pow(2, combo(operand, a)))
         elif op == 1:
             B = B ^ operand
         elif op == 2:
-            B = (combo(operand, A) % 8)
+            B = (combo(operand, a) % 8)
         elif op == 3:
-            if A != 0:
+            if a != 0:
                 inc_by_2 = False
-                ix = operand
+                _ix = operand
         elif op == 4:
             B = B ^ C
         elif op == 5:
-            new_out = combo(operand, A) % 8
-            if pt2:
-                if len(out) >= len(_opcode):
-                    return out
-                if _opcode[len(out)] != new_out:
-                    return out
-
-            out.append(new_out)
-            if len(out) > threshold:
-                if pt2:
-                    last_hit = A_orig
-                    threshold += 1
-                    increased = True
+            new_out = combo(operand, a) % 8
+            _out.append(new_out)
 
         elif op == 6:
             print('did B!')
-            B = int(A / pow(2, combo(operand, A)))
+            B = int(a / pow(2, combo(operand, a)))
         elif op == 7:
-            C = int(A / pow(2, combo(operand, A)))
+            C = int(a / pow(2, combo(operand, a)))
         else:
             print('?')
         if inc_by_2:
-            ix += 2
+            _ix += 2
 
-    return out
+    return _out
 
 
 if __name__ == '__main__':
@@ -90,7 +74,7 @@ if __name__ == '__main__':
     target_number = [opcode[ix]]
     ix_rels = []
     while True:
-        out = run_program(opcode, A_new, False)
+        out = run_program(opcode, A_new)
         if out == opcode:
             break
         if out == target_number:
