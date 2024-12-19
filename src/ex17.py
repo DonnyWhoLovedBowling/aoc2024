@@ -18,8 +18,8 @@ def run_program(_opcode, A_orig, pt2=False):
     out = []
     increased = False
     while ix < len(_opcode):
-        if increased:
-            print(len(out), A, B, C)
+        # if increased:
+        #     print(len(out), A, B, C)
         op = _opcode[ix]
         operand = _opcode[ix + 1]
         inc_by_2 = True
@@ -40,13 +40,12 @@ def run_program(_opcode, A_orig, pt2=False):
             new_out = combo(operand, A) % 8
             if pt2:
                 if len(out) >= len(_opcode):
-                    return []
+                    return out
                 if _opcode[len(out)] != new_out:
-                    return []
+                    return out
 
             out.append(new_out)
             if len(out) > threshold:
-                print(A_orig, B, (A_orig-last_hit), len(out), operand)
                 if pt2:
                     last_hit = A_orig
                     threshold += 1
@@ -68,7 +67,7 @@ def run_program(_opcode, A_orig, pt2=False):
 if __name__ == '__main__':
     in_file = open("../data/ex17.txt")
     lines = [l.replace('\\n', '').strip() for l in in_file.readlines()]
-    A_cor, B, C = 0,0,0
+    A_cor, B, C = 0, 0, 0
     last_hit = 0
     threshold = 0
     opcode = []
@@ -84,15 +83,23 @@ if __name__ == '__main__':
         else:
             opcode = [int(n) for n in line.split(':')[1].split(',')]
 
-    # out = run_program(opcode, A_cor)
-    # print(out)
-    A_new = pow(8, 17)
+    print(run_program(opcode, A_cor))
+    A_new = 1
     out = []
-    while out != opcode:
-        out = run_program(opcode, A_new, True)
-        A_new -= 1
-        # if A_new % 100000 == 0:
-        #     print(A_new)
-        # break
+    ix = len(opcode)-1
+    target_number = [opcode[ix]]
+    ix_rels = []
+    while True:
+        out = run_program(opcode, A_new, False)
+        if out == opcode:
+            break
+        if out == target_number:
+            ix_rels.append(A_new-pow(8, len(opcode)-(ix+1)))
+            A_new = pow(8, len(opcode)-ix)+8*(ix_rels[-1])
+            ix -= 1
+            target_number = [opcode[ix]] + target_number
+        else:
+            A_new += 1
+
     print(A_new)
 
