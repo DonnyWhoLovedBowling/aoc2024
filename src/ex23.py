@@ -25,8 +25,6 @@ if __name__ == '__main__':
     all_combs = set(filter(lambda x: x[0][0] == 't' or x[1][0] == 't' or x[2][0] == 't' ,
                        combinations(connected_nodes, 3)))
     for i, comb in enumerate(all_combs):
-        if i % 100000 == 0:
-            print(i, len(all_combs))
         subgraph = full_graph.subgraph(comb)
         if len(subgraph.edges()) == 3:
             ans_1 += 1
