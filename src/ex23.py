@@ -1,7 +1,5 @@
 from networkx import Graph, isolates, draw_networkx
 from itertools import combinations
-
-from matplotlib import pyplot as plt
 import matplotlib
 from networkx.algorithms.clique import find_cliques
 
@@ -20,9 +18,7 @@ if __name__ == '__main__':
             full_graph.add_node(node1)
         if node2 not in full_graph.nodes():
             full_graph.add_node(node2)
-        # if 't' == node2[0] or 't' == node1[0]:
         full_graph.add_edge(node1, node2)
-        # full_graph.add_edge(node2, node1)
 
     connected_nodes = set(full_graph.nodes()).difference(set(isolates(full_graph)))
     ans_1 = 0
